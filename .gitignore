@@ -1,6 +1,17 @@
 .venv/
-data/
 __pycache__/
 *.pyc
 .env
 .DS_Store
+
+# data/ is excluded by default (regenerable, and some of it is large:
+# embeddings.npy, index.db, the raw scraped HTML) — except the eval set and
+# result files, which are the evidence for every number in the README and
+# can't be verified without them.
+data/*
+!data/eval.jsonl
+!data/eval_results.json
+!data/rerank_results.json
+!data/gate_results.json
+!data/e2e_results.json
+!data/articles.jsonl

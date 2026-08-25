@@ -1,0 +1,1121 @@
+{
+  "n_questions": 150,
+  "rrf_k": 60,
+  "channel_top_n": 100,
+  "weight_sweep": {
+    "1x": {
+      "keyword_weight": 1.0,
+      "dense_weight": 1.0,
+      "overall": {
+        "n": 127,
+        "recall@1": 0.49606299212598426,
+        "recall@3": 0.6692913385826772,
+        "recall@5": 0.8110236220472441,
+        "recall@10": 0.84251968503937,
+        "mrr": 0.6137139192063094
+      },
+      "by_language": {
+        "fr": {
+          "n": 77,
+          "recall@1": 0.5064935064935064,
+          "recall@3": 0.6623376623376623,
+          "recall@5": 0.8181818181818182,
+          "recall@10": 0.8571428571428571,
+          "mrr": 0.6246567995708561
+        },
+        "en": {
+          "n": 50,
+          "recall@1": 0.48,
+          "recall@3": 0.68,
+          "recall@5": 0.8,
+          "recall@10": 0.82,
+          "mrr": 0.5968618834449075
+        }
+      },
+      "by_cross_lingual": {
+        "False": {
+          "n": 77,
+          "recall@1": 0.5064935064935064,
+          "recall@3": 0.6623376623376623,
+          "recall@5": 0.8181818181818182,
+          "recall@10": 0.8571428571428571,
+          "mrr": 0.6246567995708561
+        },
+        "True": {
+          "n": 50,
+          "recall@1": 0.48,
+          "recall@3": 0.68,
+          "recall@5": 0.8,
+          "recall@10": 0.82,
+          "mrr": 0.5968618834449075
+        }
+      }
+    },
+    "3x": {
+      "keyword_weight": 1.0,
+      "dense_weight": 3.0,
+      "overall": {
+        "n": 127,
+        "recall@1": 0.5354330708661418,
+        "recall@3": 0.7401574803149606,
+        "recall@5": 0.8346456692913385,
+        "recall@10": 0.8818897637795275,
+        "mrr": 0.6606571716658391
+      },
+      "by_language": {
+        "fr": {
+          "n": 77,
+          "recall@1": 0.5584415584415584,
+          "recall@3": 0.7402597402597403,
+          "recall@5": 0.8181818181818182,
+          "recall@10": 0.8701298701298701,
+          "mrr": 0.6731291658796204
+        },
+        "en": {
+          "n": 50,
+          "recall@1": 0.5,
+          "recall@3": 0.74,
+          "recall@5": 0.86,
+          "recall@10": 0.9,
+          "mrr": 0.6414503005766165
+        }
+      },
+      "by_cross_lingual": {
+        "False": {
+          "n": 77,
+          "recall@1": 0.5584415584415584,
+          "recall@3": 0.7402597402597403,
+          "recall@5": 0.8181818181818182,
+          "recall@10": 0.8701298701298701,
+          "mrr": 0.6731291658796204
+        },
+        "True": {
+          "n": 50,
+          "recall@1": 0.5,
+          "recall@3": 0.74,
+          "recall@5": 0.86,
+          "recall@10": 0.9,
+          "mrr": 0.6414503005766165
+        }
+      }
+    },
+    "10x": {
+      "keyword_weight": 1.0,
+      "dense_weight": 10.0,
+      "overall": {
+        "n": 127,
+        "recall@1": 0.5275590551181102,
+        "recall@3": 0.7559055118110236,
+        "recall@5": 0.8346456692913385,
+        "recall@10": 0.905511811023622,
+        "mrr": 0.6597652518785736
+      },
+      "by_language": {
+        "fr": {
+          "n": 77,
+          "recall@1": 0.5714285714285714,
+          "recall@3": 0.7142857142857143,
+          "recall@5": 0.7922077922077922,
+          "recall@10": 0.8831168831168831,
+          "mrr": 0.6675067398298524
+        },
+        "en": {
+          "n": 50,
+          "recall@1": 0.46,
+          "recall@3": 0.82,
+          "recall@5": 0.9,
+          "recall@10": 0.94,
+          "mrr": 0.6478433604336044
+        }
+      },
+      "by_cross_lingual": {
+        "False": {
+          "n": 77,
+          "recall@1": 0.5714285714285714,
+          "recall@3": 0.7142857142857143,
+          "recall@5": 0.7922077922077922,
+          "recall@10": 0.8831168831168831,
+          "mrr": 0.6675067398298524
+        },
+        "True": {
+          "n": 50,
+          "recall@1": 0.46,
+          "recall@3": 0.82,
+          "recall@5": 0.9,
+          "recall@10": 0.94,
+          "mrr": 0.6478433604336044
+        }
+      }
+    },
+    "30x": {
+      "keyword_weight": 1.0,
+      "dense_weight": 30.0,
+      "overall": {
+        "n": 127,
+        "recall@1": 0.5196850393700787,
+        "recall@3": 0.7401574803149606,
+        "recall@5": 0.8188976377952756,
+        "recall@10": 0.8818897637795275,
+        "mrr": 0.6523766079766639
+      },
+      "by_language": {
+        "fr": {
+          "n": 77,
+          "recall@1": 0.5454545454545454,
+          "recall@3": 0.6883116883116883,
+          "recall@5": 0.7792207792207793,
+          "recall@10": 0.8571428571428571,
+          "mrr": 0.6458644836088445
+        },
+        "en": {
+          "n": 50,
+          "recall@1": 0.48,
+          "recall@3": 0.82,
+          "recall@5": 0.88,
+          "recall@10": 0.92,
+          "mrr": 0.6624052795031057
+        }
+      },
+      "by_cross_lingual": {
+        "False": {
+          "n": 77,
+          "recall@1": 0.5454545454545454,
+          "recall@3": 0.6883116883116883,
+          "recall@5": 0.7792207792207793,
+          "recall@10": 0.8571428571428571,
+          "mrr": 0.6458644836088445
+        },
+        "True": {
+          "n": 50,
+          "recall@1": 0.48,
+          "recall@3": 0.82,
+          "recall@5": 0.88,
+          "recall@10": 0.92,
+          "mrr": 0.6624052795031057
+        }
+      }
+    },
+    "60x": {
+      "keyword_weight": 1.0,
+      "dense_weight": 60.0,
+      "overall": {
+        "n": 127,
+        "recall@1": 0.49606299212598426,
+        "recall@3": 0.7322834645669292,
+        "recall@5": 0.8110236220472441,
+        "recall@10": 0.8818897637795275,
+        "mrr": 0.6352100585364618
+      },
+      "by_language": {
+        "fr": {
+          "n": 77,
+          "recall@1": 0.4935064935064935,
+          "recall@3": 0.6883116883116883,
+          "recall@5": 0.7662337662337663,
+          "recall@10": 0.8571428571428571,
+          "mrr": 0.6165273416742999
+        },
+        "en": {
+          "n": 50,
+          "recall@1": 0.5,
+          "recall@3": 0.8,
+          "recall@5": 0.88,
+          "recall@10": 0.92,
+          "mrr": 0.6639814425041912
+        }
+      },
+      "by_cross_lingual": {
+        "False": {
+          "n": 77,
+          "recall@1": 0.4935064935064935,
+          "recall@3": 0.6883116883116883,
+          "recall@5": 0.7662337662337663,
+          "recall@10": 0.8571428571428571,
+          "mrr": 0.6165273416742999
+        },
+        "True": {
+          "n": 50,
+          "recall@1": 0.5,
+          "recall@3": 0.8,
+          "recall@5": 0.88,
+          "recall@10": 0.92,
+          "mrr": 0.6639814425041912
+        }
+      }
+    },
+    "dense-only": {
+      "keyword_weight": 0.0,
+      "dense_weight": 1.0,
+      "overall": {
+        "n": 127,
+        "recall@1": 0.4881889763779528,
+        "recall@3": 0.7322834645669292,
+        "recall@5": 0.7952755905511811,
+        "recall@10": 0.8818897637795275,
+        "mrr": 0.6266916417509523
+      },
+      "by_language": {
+        "fr": {
+          "n": 77,
+          "recall@1": 0.4805194805194805,
+          "recall@3": 0.6883116883116883,
+          "recall@5": 0.7532467532467533,
+          "recall@10": 0.8571428571428571,
+          "mrr": 0.6048594062511152
+        },
+        "en": {
+          "n": 50,
+          "recall@1": 0.5,
+          "recall@3": 0.8,
+          "recall@5": 0.86,
+          "recall@10": 0.92,
+          "mrr": 0.6603132844207014
+        }
+      },
+      "by_cross_lingual": {
+        "False": {
+          "n": 77,
+          "recall@1": 0.4805194805194805,
+          "recall@3": 0.6883116883116883,
+          "recall@5": 0.7532467532467533,
+          "recall@10": 0.8571428571428571,
+          "mrr": 0.6048594062511152
+        },
+        "True": {
+          "n": 50,
+          "recall@1": 0.5,
+          "recall@3": 0.8,
+          "recall@5": 0.86,
+          "recall@10": 0.92,
+          "mrr": 0.6603132844207014
+        }
+      }
+    }
+  },
+  "winning_weight_label": "10x",
+  "winning_keyword_weight": 1.0,
+  "winning_dense_weight": 10.0,
+  "out_of_scope_analysis": {
+    "n_out_of_scope": 23,
+    "top_dense_score_distribution": {
+      "out_of_scope": {
+        "min": 0.8133339881896973,
+        "max": 0.862816572189331,
+        "mean": 0.8416992192683013,
+        "median": 0.8412929177284241
+      },
+      "in_scope": {
+        "min": 0.8012341260910034,
+        "max": 0.9008631706237793,
+        "mean": 0.8561031790230218,
+        "median": 0.8559267520904541
+      }
+    },
+    "abstention_by_threshold": {
+      "0.75": {
+        "oos_abstention_rate": 0.0,
+        "in_scope_questions_that_would_also_fall_below": 0.0
+      },
+      "0.78": {
+        "oos_abstention_rate": 0.0,
+        "in_scope_questions_that_would_also_fall_below": 0.0
+      },
+      "0.8": {
+        "oos_abstention_rate": 0.0,
+        "in_scope_questions_that_would_also_fall_below": 0.0
+      },
+      "0.82": {
+        "oos_abstention_rate": 0.08695652173913043,
+        "in_scope_questions_that_would_also_fall_below": 0.023622047244094488
+      },
+      "0.83": {
+        "oos_abstention_rate": 0.2608695652173913,
+        "in_scope_questions_that_would_also_fall_below": 0.07086614173228346
+      },
+      "0.85": {
+        "oos_abstention_rate": 0.6956521739130435,
+        "in_scope_questions_that_would_also_fall_below": 0.3228346456692913
+      },
+      "0.87": {
+        "oos_abstention_rate": 1.0,
+        "in_scope_questions_that_would_also_fall_below": 0.7716535433070866
+      },
+      "0.9": {
+        "oos_abstention_rate": 1.0,
+        "in_scope_questions_that_would_also_fall_below": 0.9921259842519685
+      }
+    }
+  },
+  "failures_at_k3": [
+    {
+      "id": "q003",
+      "question": "Mon contrat dit que je suis pigiste et je fournis mon propre matériel pour livrer des colis avec mon camion, est-ce que je suis protégé par cette loi ?",
+      "language": "fr",
+      "category": "scope",
+      "expected_articles": [
+        "1"
+      ],
+      "top_k_returned": [
+        "122",
+        "95",
+        "93"
+      ],
+      "rank_of_expected": 20,
+      "top_dense_score": 0.8306007385253906,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q006",
+      "question": "Combien de temps mon employeur a le droit d'attendre entre deux payes avant que ce soit illégal ?",
+      "language": "fr",
+      "category": "wages",
+      "expected_articles": [
+        "43"
+      ],
+      "top_k_returned": [
+        "53",
+        "81.17.3",
+        "58"
+      ],
+      "rank_of_expected": 10,
+      "top_dense_score": 0.8630130290985107,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q007",
+      "question": "Can my employer just hand my pay to my roommate instead of me without asking?",
+      "language": "en",
+      "category": "wages",
+      "expected_articles": [
+        "44"
+      ],
+      "top_k_returned": [
+        "85.1",
+        "50",
+        "39"
+      ],
+      "rank_of_expected": 9,
+      "top_dense_score": 0.8595341444015503,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q011",
+      "question": "If I sign my pay stub, does that mean I've given up the right to claim money my boss still owes me?",
+      "language": "en",
+      "category": "wages",
+      "expected_articles": [
+        "48"
+      ],
+      "top_k_returned": [
+        "96",
+        "47",
+        "120"
+      ],
+      "rank_of_expected": 4,
+      "top_dense_score": 0.8432024717330933,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q012",
+      "question": "Mon employeur peut-il couper de l'argent sur ma paye pour rembourser un uniforme brisé sans que j'aie donné mon accord écrit ?",
+      "language": "fr",
+      "category": "wages",
+      "expected_articles": [
+        "49"
+      ],
+      "top_k_returned": [
+        "51.1",
+        "85.1",
+        "84.0.8"
+      ],
+      "rank_of_expected": 13,
+      "top_dense_score": 0.8466716408729553,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q026",
+      "question": "Quels sont les jours où je suis censé être payé congé même si je ne travaille pas ?",
+      "language": "fr",
+      "category": "holidays",
+      "expected_articles": [
+        "60"
+      ],
+      "top_k_returned": [
+        "63",
+        "64",
+        "68.1"
+      ],
+      "rank_of_expected": 23,
+      "top_dense_score": 0.8667317032814026,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q027",
+      "question": "How is my holiday pay calculated for a paid statutory day off if I don't work that day?",
+      "language": "en",
+      "category": "holidays",
+      "expected_articles": [
+        "62"
+      ],
+      "top_k_returned": [
+        "45",
+        "59.1",
+        "65"
+      ],
+      "rank_of_expected": 4,
+      "top_dense_score": 0.9008631706237793,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q028",
+      "question": "Je dois travailler le jour de l'An parce que mon commerce reste ouvert, j'ai droit à quelque chose de plus que mon salaire normal ?",
+      "language": "fr",
+      "category": "holidays",
+      "expected_articles": [
+        "63"
+      ],
+      "top_k_returned": [
+        "45",
+        "55",
+        "44"
+      ],
+      "rank_of_expected": 19,
+      "top_dense_score": 0.8549480438232422,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q029",
+      "question": "My scheduled day off happens to land on a stat holiday, do I lose out on that holiday entirely?",
+      "language": "en",
+      "category": "holidays",
+      "expected_articles": [
+        "64"
+      ],
+      "top_k_returned": [
+        "45",
+        "65",
+        "59.1"
+      ],
+      "rank_of_expected": 5,
+      "top_dense_score": 0.8550379276275635,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q031",
+      "question": "Ça fait juste huit mois que je travaille ici, j'ai droit à des vacances quand même ?",
+      "language": "fr",
+      "category": "vacation",
+      "expected_articles": [
+        "67"
+      ],
+      "top_k_returned": [
+        "68",
+        "72",
+        "69"
+      ],
+      "rank_of_expected": 9,
+      "top_dense_score": 0.837222695350647,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q038",
+      "question": "My employer wants to just pay me extra cash instead of letting me actually take my vacation days, is that allowed?",
+      "language": "en",
+      "category": "vacation",
+      "expected_articles": [
+        "73"
+      ],
+      "top_k_returned": [
+        "59.1",
+        "54",
+        "43"
+      ],
+      "rank_of_expected": 25,
+      "top_dense_score": 0.8516103029251099,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q039",
+      "question": "Comment calcule-t-on l'argent que je devrais recevoir pour mes vacances si je gagne juste le salaire minimum ?",
+      "language": "fr",
+      "category": "vacation",
+      "expected_articles": [
+        "74"
+      ],
+      "top_k_returned": [
+        "40",
+        "62",
+        "44"
+      ],
+      "rank_of_expected": 4,
+      "top_dense_score": 0.8512197136878967,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q041",
+      "question": "Je viens de quitter ma job et je n'ai jamais pris toutes mes vacances accumulées, est-ce que je reçois l'argent qui manque ?",
+      "language": "fr",
+      "category": "vacation",
+      "expected_articles": [
+        "76"
+      ],
+      "top_k_returned": [
+        "81.15.1",
+        "45",
+        "81.14"
+      ],
+      "rank_of_expected": 8,
+      "top_dense_score": 0.8269878029823303,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q050",
+      "question": "Mon enfant a eu un grave accident et j'ai besoin de m'occuper de lui à temps plein pendant longtemps, combien de temps je peux m'absenter sans perdre ma job ?",
+      "language": "fr",
+      "category": "family_leave",
+      "expected_articles": [
+        "79.8"
+      ],
+      "top_k_returned": [
+        "79.12",
+        "79.11",
+        "79.10.1"
+      ],
+      "rank_of_expected": 5,
+      "top_dense_score": 0.8854915499687195,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q052",
+      "question": "Mon conjoint est décédé dans un accident causé par quelqu'un d'autre, j'ai droit à un congé plus long qu'un simple deuil normal ?",
+      "language": "fr",
+      "category": "family_leave",
+      "expected_articles": [
+        "79.12",
+        "80"
+      ],
+      "top_k_returned": [
+        "64",
+        "68",
+        "68.1"
+      ],
+      "rank_of_expected": 10,
+      "top_dense_score": 0.8426522016525269,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q055",
+      "question": "Je me marie le mois prochain, est-ce que j'ai le droit à une journée de congé payée pour ça ?",
+      "language": "fr",
+      "category": "marriage_leave",
+      "expected_articles": [
+        "81"
+      ],
+      "top_k_returned": [
+        "64",
+        "81.4.1",
+        "72"
+      ],
+      "rank_of_expected": 53,
+      "top_dense_score": 0.8522508144378662,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q057",
+      "question": "Je viens d'avoir un bébé, j'ai le droit de m'absenter quelques jours et est-ce que ces journées sont payées ?",
+      "language": "fr",
+      "category": "parental",
+      "expected_articles": [
+        "81.1"
+      ],
+      "top_k_returned": [
+        "80",
+        "81",
+        "79.7"
+      ],
+      "rank_of_expected": 8,
+      "top_dense_score": 0.8561073541641235,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q059",
+      "question": "Je suis enceinte, ça fait combien de temps que je peux arrêter de travailler avant l'accouchement prévu et revenir après ?",
+      "language": "fr",
+      "category": "maternity",
+      "expected_articles": [
+        "81.4",
+        "81.5"
+      ],
+      "top_k_returned": [
+        "81.9",
+        "81.4.1",
+        "81.5.3"
+      ],
+      "rank_of_expected": 5,
+      "top_dense_score": 0.8766818046569824,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q071",
+      "question": "Mon boss se moque tout le temps de moi devant les autres employés et personne ne fait rien, j'ai des recours ?",
+      "language": "fr",
+      "category": "harassment",
+      "expected_articles": [
+        "81.18",
+        "81.19",
+        "123.6"
+      ],
+      "top_k_returned": [
+        "3.1",
+        "81.20",
+        "101"
+      ],
+      "rank_of_expected": 9,
+      "top_dense_score": 0.8433998823165894,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q076",
+      "question": "Je travaille ici depuis seulement deux mois et on vient de me mettre à pied, mon patron devait-il m'avertir d'avance ?",
+      "language": "fr",
+      "category": "termination",
+      "expected_articles": [
+        "82.1"
+      ],
+      "top_k_returned": [
+        "81.17.3",
+        "82",
+        "81.5.3"
+      ],
+      "rank_of_expected": 41,
+      "top_dense_score": 0.8307516574859619,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q085",
+      "question": "Le resto m'oblige à porter un chandail spécifique avec leur logo, est-ce que c'est à mes frais ?",
+      "language": "fr",
+      "category": "uniforms_expenses",
+      "expected_articles": [
+        "85"
+      ],
+      "top_k_returned": [
+        "29",
+        "3.1",
+        "92.1"
+      ],
+      "rank_of_expected": 5,
+      "top_dense_score": 0.8012341260910034,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q086",
+      "question": "My job makes me buy my own specialized tools to do the work, can they really make me pay for that out of pocket?",
+      "language": "en",
+      "category": "uniforms_expenses",
+      "expected_articles": [
+        "85.1"
+      ],
+      "top_k_returned": [
+        "85",
+        "3",
+        "46"
+      ],
+      "rank_of_expected": 5,
+      "top_dense_score": 0.8343425393104553,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q093",
+      "question": "Mon contrat de travail dit que je n'ai pas droit aux vacances prévues par la loi, est-ce que cette clause est valide ?",
+      "language": "fr",
+      "category": "public_order",
+      "expected_articles": [
+        "93"
+      ],
+      "top_k_returned": [
+        "59.1",
+        "65",
+        "64"
+      ],
+      "rank_of_expected": 37,
+      "top_dense_score": 0.8538968563079834,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q094",
+      "question": "If my union contract gives more paid days off than the legal minimum, does that override the law?",
+      "language": "en",
+      "category": "public_order",
+      "expected_articles": [
+        "94"
+      ],
+      "top_k_returned": [
+        "59.1",
+        "55",
+        "53"
+      ],
+      "rank_of_expected": 20,
+      "top_dense_score": 0.8624364733695984,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q096",
+      "question": "If a company changes its legal structure through a merger, do my accumulated rights as an employee just disappear?",
+      "language": "en",
+      "category": "successor_employer",
+      "expected_articles": [
+        "97"
+      ],
+      "top_k_returned": [
+        "79.5",
+        "79.4",
+        "81.17.2"
+      ],
+      "rank_of_expected": 10,
+      "top_dense_score": 0.8421170115470886,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q097",
+      "question": "Mon employeur veut me punir pour un geste violent que j'ai fait il y a longtemps et qui avait déjà été sanctionné avant, il peut recommencer à zéro ?",
+      "language": "fr",
+      "category": "discipline",
+      "expected_articles": [
+        "97.1"
+      ],
+      "top_k_returned": [
+        "79.4",
+        "128",
+        "122.1"
+      ],
+      "rank_of_expected": 5,
+      "top_dense_score": 0.8514364957809448,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q105",
+      "question": "Est-ce que mon employeur doit m'expliquer comment calculer mon salaire minimum si je reçois des pourboires ou d'autres avantages ?",
+      "language": "fr",
+      "category": "wages",
+      "expected_articles": [
+        "41",
+        "46"
+      ],
+      "top_k_returned": [
+        "99",
+        "50",
+        "85"
+      ],
+      "rank_of_expected": 4,
+      "top_dense_score": 0.868841290473938,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q106",
+      "question": "My manager wants me to sign something waiving overtime pay forever as a condition of the job, can he even do that?",
+      "language": "en",
+      "category": "public_order",
+      "expected_articles": [
+        "93"
+      ],
+      "top_k_returned": [
+        "55",
+        "43",
+        "47"
+      ],
+      "rank_of_expected": 41,
+      "top_dense_score": 0.8444187045097351,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q109",
+      "question": "Un employeur peut-il m'obliger à travailler comme gardienne pendant que je suis techniquement en train de me reposer entre deux quarts ?",
+      "language": "fr",
+      "category": "breaks",
+      "expected_articles": [
+        "78"
+      ],
+      "top_k_returned": [
+        "79.7",
+        "81.17.7",
+        "54"
+      ],
+      "rank_of_expected": 13,
+      "top_dense_score": 0.8504181504249573,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q117",
+      "question": "Mon père s'est enlevé la vie, est-ce que j'ai droit à une longue absence pour m'en remettre plutôt qu'un simple congé de deuil de quelques jours ?",
+      "language": "fr",
+      "category": "bereavement",
+      "expected_articles": [
+        "79.11"
+      ],
+      "top_k_returned": [
+        "80.1",
+        "81.10",
+        "81.17.5"
+      ],
+      "rank_of_expected": 6,
+      "top_dense_score": 0.8257661461830139,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q126",
+      "question": "Je suis agente de bord pour une compagnie aérienne, est-ce que cette loi provinciale s'applique à mes conditions de travail ?",
+      "language": "fr",
+      "category": "out_of_scope_federal",
+      "expected_articles": [],
+      "top_k_returned": [
+        "2",
+        "122",
+        "158"
+      ],
+      "top_dense_score": 0.8464266061782837,
+      "failure_type": "out_of_scope_but_confident"
+    },
+    {
+      "id": "q127",
+      "question": "I work as a teller at a chartered bank, does Quebec's provincial labour law cover my job?",
+      "language": "en",
+      "category": "out_of_scope_federal",
+      "expected_articles": [],
+      "top_k_returned": [
+        "89",
+        "39.0.1",
+        "2"
+      ],
+      "top_dense_score": 0.8568823933601379,
+      "failure_type": "out_of_scope_but_confident"
+    },
+    {
+      "id": "q128",
+      "question": "Je conduis un camion qui traverse plusieurs provinces chaque semaine, mes normes de travail viennent d'où ?",
+      "language": "fr",
+      "category": "out_of_scope_federal",
+      "expected_articles": [],
+      "top_k_returned": [
+        "93",
+        "89",
+        "91"
+      ],
+      "top_dense_score": 0.8441066741943359,
+      "failure_type": "out_of_scope_but_confident"
+    },
+    {
+      "id": "q129",
+      "question": "Does this law apply to call centre workers employed by a national telecom company like the phone or internet providers?",
+      "language": "en",
+      "category": "out_of_scope_federal",
+      "expected_articles": [],
+      "top_k_returned": [
+        "77",
+        "59.1",
+        "84.0.3"
+      ],
+      "top_dense_score": 0.8385081887245178,
+      "failure_type": "out_of_scope_but_confident"
+    },
+    {
+      "id": "q130",
+      "question": "Je travaille sur un pont qui relie deux provinces pour une société ferroviaire, mes conditions de travail sont régies par le Québec ?",
+      "language": "fr",
+      "category": "out_of_scope_federal",
+      "expected_articles": [],
+      "top_k_returned": [
+        "89",
+        "2",
+        "93"
+      ],
+      "top_dense_score": 0.862816572189331,
+      "failure_type": "out_of_scope_but_confident"
+    },
+    {
+      "id": "q132",
+      "question": "Je travaille pour la Société Radio-Canada, une société d'État fédérale, mes vacances sont calculées selon quelle loi ?",
+      "language": "fr",
+      "category": "out_of_scope_federal",
+      "expected_articles": [],
+      "top_k_returned": [
+        "89",
+        "81.17",
+        "54"
+      ],
+      "top_dense_score": 0.8366830348968506,
+      "failure_type": "out_of_scope_but_confident"
+    },
+    {
+      "id": "q133",
+      "question": "Je suis charpentier-menuisier sur un chantier de construction résidentielle, mes normes de travail relèvent de quelle loi ?",
+      "language": "fr",
+      "category": "out_of_scope_construction",
+      "expected_articles": [],
+      "top_k_returned": [
+        "93",
+        "3",
+        "1"
+      ],
+      "top_dense_score": 0.856987476348877,
+      "failure_type": "out_of_scope_but_confident"
+    },
+    {
+      "id": "q134",
+      "question": "As an electrician working on a commercial construction site through my union hall, does this statute set my minimum wage?",
+      "language": "en",
+      "category": "out_of_scope_construction",
+      "expected_articles": [],
+      "top_k_returned": [
+        "85",
+        "89",
+        "40"
+      ],
+      "top_dense_score": 0.851519763469696,
+      "failure_type": "out_of_scope_but_confident"
+    },
+    {
+      "id": "q135",
+      "question": "Mon employeur est un entrepreneur en construction et je pose des tuyaux de plomberie sur des chantiers, mes vacances sont calculées comment ?",
+      "language": "fr",
+      "category": "out_of_scope_construction",
+      "expected_articles": [],
+      "top_k_returned": [
+        "54",
+        "56",
+        "64"
+      ],
+      "top_dense_score": 0.8472074270248413,
+      "failure_type": "out_of_scope_but_confident"
+    },
+    {
+      "id": "q136",
+      "question": "I'm an apprentice ironworker on a bridge construction project, where do my overtime rules come from?",
+      "language": "en",
+      "category": "out_of_scope_construction",
+      "expected_articles": [],
+      "top_k_returned": [
+        "52",
+        "43",
+        "55"
+      ],
+      "top_dense_score": 0.8423739075660706,
+      "failure_type": "out_of_scope_but_confident"
+    },
+    {
+      "id": "q138",
+      "question": "I got laid off and applied for employment insurance, how long does it usually take before payments start?",
+      "language": "en",
+      "category": "out_of_scope_unrelated",
+      "expected_articles": [],
+      "top_k_returned": [
+        "82",
+        "81.17.3",
+        "43"
+      ],
+      "top_dense_score": 0.8558235168457031,
+      "failure_type": "out_of_scope_but_confident"
+    },
+    {
+      "id": "q139",
+      "question": "Mon permis de travail temporaire expire dans deux mois, comment je fais pour le renouveler avant qu'il expire ?",
+      "language": "fr",
+      "category": "out_of_scope_unrelated",
+      "expected_articles": [],
+      "top_k_returned": [
+        "92.7.1",
+        "81.9",
+        "59.0.1"
+      ],
+      "top_dense_score": 0.8586360812187195,
+      "failure_type": "out_of_scope_but_confident"
+    },
+    {
+      "id": "q143",
+      "question": "Est-ce que je peux contester une amende de stationnement que j'ai reçue devant l'hôpital ?",
+      "language": "fr",
+      "category": "out_of_scope_unrelated",
+      "expected_articles": [],
+      "top_k_returned": [
+        "140.1",
+        "92.8",
+        "139"
+      ],
+      "top_dense_score": 0.839398980140686,
+      "failure_type": "out_of_scope_but_confident"
+    },
+    {
+      "id": "q145",
+      "question": "Je suis travailleur autonome et je facture mes propres clients avec mon numéro de TPS, est-ce que j'ai droit aux mêmes congés qu'un employé ?",
+      "language": "fr",
+      "category": "out_of_scope_self_employed",
+      "expected_articles": [],
+      "top_k_returned": [
+        "74.1",
+        "67",
+        "56"
+      ],
+      "top_dense_score": 0.8587281703948975,
+      "failure_type": "out_of_scope_but_confident"
+    },
+    {
+      "id": "q146",
+      "question": "As a freelance graphic designer who invoices multiple clients on contract, do minimum wage rules apply to what I charge?",
+      "language": "en",
+      "category": "out_of_scope_self_employed",
+      "expected_articles": [],
+      "top_k_returned": [
+        "85",
+        "50",
+        "85.1"
+      ],
+      "top_dense_score": 0.8412929177284241,
+      "failure_type": "out_of_scope_but_confident"
+    },
+    {
+      "id": "q148",
+      "question": "I'm an independent Uber-style driver who owns my own car and sets my own hours, does this statute set my minimum pay?",
+      "language": "en",
+      "category": "out_of_scope_self_employed",
+      "expected_articles": [],
+      "top_k_returned": [
+        "85",
+        "3",
+        "50"
+      ],
+      "top_dense_score": 0.8389995098114014,
+      "failure_type": "out_of_scope_but_confident"
+    },
+    {
+      "id": "q149",
+      "question": "Mon frère et moi travaillons dans l'entreprise familiale de nos parents et on n'a jamais signé de contrat officiel, on a les mêmes droits qu'un employé normal ?",
+      "language": "fr",
+      "category": "scope",
+      "expected_articles": [
+        "3"
+      ],
+      "top_k_returned": [
+        "79.5",
+        "79.6.1",
+        "84.7"
+      ],
+      "rank_of_expected": 18,
+      "top_dense_score": 0.8317009210586548,
+      "failure_type": "expected_article_missing_from_top_k"
+    },
+    {
+      "id": "q150",
+      "question": "As a contract IT consultant who bills by the project and works from home on my own schedule, am I covered by employee leave rules?",
+      "language": "en",
+      "category": "out_of_scope_self_employed",
+      "expected_articles": [],
+      "top_k_returned": [
+        "76",
+        "81.15",
+        "74.1"
+      ],
+      "top_dense_score": 0.8401480913162231,
+      "failure_type": "out_of_scope_but_confident"
+    }
+  ]
+}

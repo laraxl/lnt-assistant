@@ -295,6 +295,42 @@ the regex (no API calls needed to re-judge already-saved responses) and the
 true figure was 23/23, not 19/23. Recorded here because a report is only as
 trustworthy as its willingness to say when its own scoring script was wrong.
 
+## Reproducing these results
+
+`data/eval.jsonl` and every `data/*_results.json` file are tracked in this
+repo specifically so the numbers above can be checked against real output,
+not just read on faith — `data/articles.jsonl` too (it's under 1MB). The
+rest of `data/` (raw scraped HTML, `embeddings.npy`, `index.db`,
+`chunks.jsonl`) is regenerable and gitignored to keep the repo small.
+
+Run these in order from a fresh clone:
+
+```bash
+python3 -m venv .venv
+./.venv/bin/pip install -r requirements.txt
+```
+
+| # | command | needs | first run | cached re-run |
+|---|---|---|---|---|
+| 1 | `./.venv/bin/python3 src/scrape_lnt.py` | network (LégisQuébec) | ~10–30s, occasionally longer if the site rate-limits | instant (reads cached `data/*.html`) |
+| 2 | `./.venv/bin/python3 src/chunk.py` | nothing | <5s | <5s |
+| 3 | `./.venv/bin/python3 src/embed.py` | network (downloads `multilingual-e5-base`, ~1.1GB, from Hugging Face) | a few minutes, mostly the download | ~10s |
+| 4 | `./.venv/bin/python3 src/evaluate.py` | nothing (reuses the embedding model, no API) | ~1–2 min | ~1–2 min |
+| 5 | `./.venv/bin/python3 src/evaluate_rerank.py` | network (downloads `bge-reranker-v2-m3`, ~1.1GB, first run only) | several minutes (download) + ~3 min (150 questions × ~1.1s/query on CPU) | ~3 min |
+| 6 | `./.venv/bin/python3 src/evaluate_gate.py` | **`ANTHROPIC_API_KEY` in `.env`, a few dollars of credit** | ~65s (150 questions, 8-way parallel) | same — it's a live API, not cached locally |
+| 7 | `./.venv/bin/python3 src/evaluate_e2e.py` | nothing (reads step 6's saved gate decisions — does not call the API again) | ~2–3 min | ~2–3 min |
+
+Steps 1, 3, and 5 need network access the first time (LégisQuébec, then two
+Hugging Face model downloads); step 6 needs a funded Anthropic API key.
+Everything else runs offline once the models and dataset are cached.
+
+**Approximate total cost of a full eval run: ~$0.40**, all of it from step 6
+— the only step that calls a paid API. Steps 1–5 and 7 use local models and
+cost nothing beyond compute time. Re-running step 6 alone re-costs ~$0.40
+each time (prompt caching cuts the per-query cost after the first call, but
+each run is a fresh set of live requests, not something that stays cached
+between runs).
+
 ## Limitations
 
 - **~13% of in-scope questions are still missed at k=3** (recall@3 = 0.874

@@ -7,10 +7,9 @@ holidays, leaves of absence, termination notice, and related complaint
 procedures.
 
 Given a plain-language question in French or English, the system finds the
-right article(s) of the Act, or tells you — and, since October 2025, tries to
-tell you *why* — when the Act isn't the right place to look at all
-(federally regulated work, the construction industry, or the question isn't
-about employment law).
+right article(s) of the Act, or tells you why the Act isn't the right place
+to look at all (federally regulated work, the construction industry, or the
+question isn't about employment law).
 
 **Who this is for:** a starting point for someone building an LNT-grounded
 assistant — a retrieval layer with its accuracy actually measured, not
@@ -20,8 +19,9 @@ advice (see [Limitations](#limitations)).
 ## What it does
 
 ```
-question ──▶ jurisdiction gate ──▶ hybrid search (BM25 + dense) ──▶ cross-encoder rerank ──▶ top-k articles
-             (LLM classifier)       (keyword ∪ semantic, RRF-fused)   (bge-reranker-v2-m3)
+question ──▶ jurisdiction gate ──▶ hybrid search (BM25 + dense) ──▶ cross-encoder rerank ──▶ answer generation ──▶ answer + citations
+             (LLM classifier)       (keyword ∪ semantic, RRF-fused)   (bge-reranker-v2-m3)     (LLM, grounded only
+                                                                                                 in the top-3 articles)
 ```
 
 - **Scraper** (`src/scrape_lnt.py`) — downloads the Act from LégisQuébec in
@@ -37,6 +37,13 @@ question ──▶ jurisdiction gate ──▶ hybrid search (BM25 + dense) ─�
   hybrid results, opt-in via `rerank=True`.
 - **Jurisdiction gate** (`src/gate.py`) — an LLM call that runs *before*
   retrieval and decides whether the LNT applies at all.
+- **Answer generation** (`src/answer.py`) — an LLM call grounded *only* in
+  the top-3 retrieved article texts: cites article numbers inline, and is
+  explicitly instructed to say when the retrieved articles don't answer the
+  question rather than inventing a rule.
+- **Web app** (`src/api.py`, `static/index.html`) — a FastAPI backend
+  loading both ML models once at startup, and a single-file frontend (FR
+  default, EN toggle, no build step) that calls it.
 - **Evaluation harness** (`src/evaluate*.py`) — a 150-question, hand-audited
   eval set (`data/eval.jsonl`) and scripts that measure every one of the
   above, honestly, instead of on 4 hand-picked examples.
@@ -44,8 +51,8 @@ question ──▶ jurisdiction gate ──▶ hybrid search (BM25 + dense) ─�
 ## 60-second quickstart
 
 ```bash
-git clone <this-repo>
-cd lnt
+git clone https://github.com/laraxl/lnt-assistant.git
+cd lnt-assistant
 python3 -m venv .venv
 ./.venv/bin/pip install -r requirements.txt
 ```
@@ -158,6 +165,34 @@ worker, but article 3 explaining that exclusion *is* the answer, so
 retrieval still runs). Only `REDIRECT` suppresses retrieval now; a hedge
 (`confident=false`) defaults to `ALLOW` rather than blocking.
 
+**Answer generation grounded only in what was retrieved, nothing else.**
+`src/answer.py` is where hallucination risk actually lives — an LLM call
+that gets *only* the top-3 retrieved article texts and is instructed to
+state a rule only if it's written there, cite the article number inline for
+every claim, and say plainly when the provided text doesn't answer the
+question rather than stretching a related article into one it doesn't
+support. The disclaimer and answer language follow the UI's language
+toggle, not whatever language the question happens to be typed in — a user
+can toggle to EN and ask a French question and get an English answer,
+English citations, and an English disclaimer, because the toggle is what's
+sent to the backend as `lang`, not inferred from the question text.
+
+**A relevance floor on displayed citations, not on retrieval.** Hybrid
+search + rerank always return the top-3 candidates — always 3, even when
+only 1 or 2 are actually relevant — so a weak third result could show up as
+a citation card next to two strong ones and make the whole response look
+unreliable. `src/api.py` still feeds all 3 articles to answer generation
+(more grounding context doesn't hurt, and the prompt already handles
+irrelevant context by saying so), but only *displays* a rank-2/3 citation
+if its cross-encoder rerank score clears `CITATION_RERANK_FLOOR = 0.05`;
+rank 1 is always shown, since it's virtually always the retriever's actual
+best guess. That threshold came from checking, across the 127 in-scope
+eval questions, where correct vs. incorrect rank-2/3 citations' rerank
+scores actually fall — see [Results](#results) for the numbers, because the
+honest finding is that correct and incorrect scores overlap substantially
+and no threshold cleanly separates them; 0.05 was chosen as the best
+available tradeoff, not a clean cut.
+
 ## Results
 
 All numbers below are reproducible from `data/*.json` via the
@@ -261,6 +296,41 @@ read together, not netted into one. Cost: ~$0.0027/query with prompt
 caching (~$0.0133 cold). This is stated explicitly, not just here, inside
 `data/gate_results.json` and `data/e2e_results.json`.
 
+### Citation relevance floor — an honest tradeoff, not a clean cutoff
+
+Reported failure: "how much vacation after 2 years" returned article 81.4.1
+(maternity leave after a late delivery — completely unrelated) as citation
+#2, next to two genuinely relevant articles. The written answer was
+correct; the citation panel looked broken.
+
+Checked, across all 127 in-scope eval questions, the cross-encoder rerank
+scores of citations that landed in the top-3: correct ones ranged from
+0.0007 to 0.999 (median 0.33), and incorrect ones that still made the
+top-3 ranged from 0.0001 to 0.99 (median 0.05). **The two distributions
+overlap almost completely — no single threshold cleanly separates correct
+from incorrect.** Restricting the threshold to rank 2/3 only (rank 1 is
+always shown — it's virtually always the retriever's genuine best guess and
+essentially never needs filtering) makes the tradeoff far more favorable:
+
+| threshold | correct citations lost (of 127 questions) | incorrect rank-2/3 citations hidden (of 268) |
+|---|---|---|
+| 0.01 | 5 | 50 |
+| 0.02 | 5 | 72 |
+| 0.03 | 5 | 89 |
+| 0.04 | 5 | 107 |
+| **0.05 (chosen)** | **6** | **115** |
+| 0.06 | 6 | 124 |
+| 0.10 | 11 | 138 |
+
+0.05 was picked because it's the smallest threshold that clears the
+motivating case (article 81.4.1 scored 0.047) without jumping the correct-citations-lost
+count — 0.04 and 0.05 cost the same 5-6 questions, so there's no reason to
+stop short of catching that case. **6 of 127 in-scope questions (4.7%) lose
+a citation that was actually correct** at this threshold — specifically,
+the ones where the correct article happened to land at rank 2 or 3 rather
+than rank 1. That cost is disclosed, not hidden: `CITATION_RERANK_FLOOR` in
+`src/api.py` documents this analysis inline.
+
 ### Label audit — checking the eval set against itself
 
 The eval set's questions and gold labels were both written by the same
@@ -331,6 +401,154 @@ each time (prompt caching cuts the per-query cost after the first call, but
 each run is a fresh set of live requests, not something that stays cached
 between runs).
 
+## Deployment
+
+The web app (`src/api.py` + `static/index.html`) deploys to
+[Render](https://render.com) as a single always-on web service, configured
+by the committed `render.yaml`. Render fits this project well: a dashboard-driven,
+GitHub-linked native Python runtime with instance sizes that scale to the
+RAM this needs, and Blueprint (`render.yaml`) support so the whole
+configuration is one reviewable file instead of dashboard clicks nobody can
+audit later. (Fly.io and Railway are broadly comparable for a service this
+size; Fly.io leans more CLI-driven, which matters less once this is set up
+but is a worse first-time experience — Render's dashboard flow was chosen
+for that reason, not because the others don't fit.)
+
+### Instance size: Pro (4GB RAM), $85/month
+
+Measured actual RAM use of the running server (both models loaded, after
+handling real requests): **~1.35GB**, on this machine. That already leaves
+uncomfortably little headroom on Render's Standard plan (2GB RAM, $25/month)
+once you add Linux/container overhead, concurrent-request buffers, and the
+fact that PyTorch's memory footprint on Linux x86_64 doesn't necessarily
+match macOS ARM. An out-of-memory kill on a 2GB instance means the process
+gets killed and restarted — reloading both models from scratch, several
+minutes of downtime, repeating for as long as memory stays tight.
+
+**Pro (4GB RAM / 2 CPU, $85/month)** is the size actually configured in
+`render.yaml`. Standard ($25/month) is cheaper and might work — try it and
+watch the logs for OOM kills if the cost matters more than the safety
+margin — but it isn't what's committed, because "might work" isn't a
+foundation to deploy legal-information infrastructure on.
+
+One consequence worth stating plainly: **do not scale this to multiple
+instances or add `--workers` to the uvicorn start command.** Both models
+load fully into each process's own memory — a second worker or a second
+instance doubles RAM use, not throughput-per-dollar. The rate limiter's
+in-memory per-IP state is also local to one process; horizontal scaling
+would need it moved to shared storage (e.g. Redis) to keep working
+correctly. Neither is set up here, deliberately — this is a small, single-instance
+deployment, not infrastructure for real scale.
+
+### Data files: regenerated at build time from the tracked `articles.jsonl`, not re-scraped
+
+`data/embeddings.npy` and `data/index.db` are gitignored (large-ish binary
+build artifacts, not source). Two options existed for producing them on
+Render, with a real tradeoff:
+
+- **Re-scrape LégisQuébec on every deploy.** Always reflects the current
+  page. But it makes every deploy depend on a government website being
+  reachable and not rate-limiting Render's IP — a routine redeploy
+  shouldn't be able to fail because of that, and LégisQuébec *did*
+  rate-limit this project mid-session at least once. Worse for a legal-information
+  app specifically: the Act's text would change on Render's servers the
+  moment LégisQuébec's page changes, with no human ever reviewing the diff
+  before it goes live.
+- **Regenerate from the already-committed `data/articles.jsonl`** (chosen).
+  `render.yaml`'s build command runs `chunk.py` then `embed.py` against the
+  tracked article text — deterministic, no dependency on LégisQuébec being
+  up, and no legal-content change ships without a human first re-running
+  the scraper locally, reviewing the diff, and committing it. The real cost
+  is staleness risk: if the LNT is amended and nobody re-runs the pipeline,
+  the deployed text silently falls behind. That's an accepted, disclosed
+  tradeoff, not an oversight — for legal content, a reviewed update beats
+  an automatic one.
+
+`data/index.db` (the FTS5 keyword index) isn't part of the build command at
+all — it builds itself automatically the moment the app starts, inside
+`Searcher.__init__` (see `search.py`), since a fresh deploy never has one
+yet. That happens before the app opens its port, so it can't be reached by
+a first request — indistinguishable in effect from "at build time" for the
+purpose of the earlier "don't make the first user wait" requirement, even
+though it's technically a startup step, not a build step.
+
+### The two ML models download at build time, not on first request
+
+`render.yaml`'s build command explicitly imports and instantiates both
+`SentenceTransformer('intfloat/multilingual-e5-base')` and
+`CrossEncoder('BAAI/bge-reranker-v2-m3')` before anything else — this pulls
+both models' weights from Hugging Face into the build environment's local
+cache. Render's native Python runtime builds and runs a service in the same
+persistent environment (the build step doesn't get discarded the way some
+platforms' isolated build containers do), so by the time `startCommand`
+runs `uvicorn`, both models load from local disk in seconds, not over the
+network. Without this, the *first real user's* request would trigger both
+downloads inline — several minutes, not the 1-2 seconds `rerank=True`
+normally costs.
+
+### API cost estimate
+
+Measured, not guessed: a typical answer-generation call (3 articles of
+context, a normal-length question) costs **777 input tokens / 184 output
+tokens** — at `claude-sonnet-4-6` pricing ($3/$15 per 1M tokens), about
+**$0.0051**. Add the gate call ahead of it (~$0.0027 with prompt caching
+warm, per the measurements above) and a typical in-scope question costs
+**~$0.008**. A question the gate routes to `REDIRECT` costs only the gate
+call, ~$0.0027, since answer generation never runs.
+
+| daily questions | assuming mostly in-scope (~$0.008/q) | monthly |
+|---|---|---|
+| 50/day | ~$0.40/day | **~$12/month** |
+| 500/day | ~$4.00/day | **~$120/month** |
+
+That's Anthropic API spend only, separate from the $85/month Render
+instance. The 10-questions-per-day-per-IP rate limit stays on in
+production specifically to put a ceiling under this number — without it, a
+single abusive IP could run this bill up arbitrarily.
+
+### Exact steps in Render's dashboard
+
+1. Make sure `render.yaml` is committed and pushed to the `main` branch of
+   your GitHub repo (it already is, if you're reading this after the
+   relevant commit).
+2. Go to [dashboard.render.com](https://dashboard.render.com) and sign up
+   or log in — signing in with GitHub is the simplest option, since you'll
+   need to connect your GitHub account regardless.
+3. Click the **New +** button (top right of the dashboard) and choose
+   **Blueprint** from the dropdown.
+4. If you haven't connected GitHub yet, Render prompts you to do so now —
+   click **Connect GitHub**, follow the OAuth flow, and grant Render access
+   to the repository (either all repos, or just this one — your choice).
+5. Select your `lnt-assistant` repository from the list. Render reads
+   `render.yaml` from the repo root automatically and shows you a preview
+   of what it's about to create: one web service named `lnt-assistant`.
+6. Because `render.yaml` marks `ANTHROPIC_API_KEY` with `sync: false`,
+   Render shows a text field asking you to provide that value right there
+   in this setup flow. Paste in a real Anthropic API key from an account
+   with credit on it. This value is stored by Render, shown only to you in
+   the dashboard, and never written into the repo.
+7. Click **Apply** (sometimes labeled **Create New Resources**) to confirm
+   and start the first deploy.
+8. You're taken to the new service's page. Click the **Logs** tab to watch
+   the build happen in real time — `pip install`, the two Hugging Face
+   model downloads, `chunk.py`, `embed.py`, then the server starting up.
+   This first build is slow (torch plus ~2.2GB of model weights) — budget
+   10-15 minutes, not 1-2.
+9. When the logs show `Uvicorn running on http://0.0.0.0:$PORT` and the
+   service's status badge turns green ("Live"), the app is up. Render
+   assigns it a URL of the form `https://lnt-assistant.onrender.com` —
+   click it (or find it at the top of the service page) to open the app.
+10. Test it: ask a real question in the browser. If nothing loads or you
+    get a 500, click **Logs** again — a missing/invalid `ANTHROPIC_API_KEY`
+    or an out-of-memory kill are the two most likely first-deploy problems,
+    and both show up clearly there.
+11. **Auto-deploy is on by default**: every push to `main` triggers a new
+    build and deploy automatically. To ship an updated Act (after
+    re-running the scraper locally and reviewing the diff — see the
+    tradeoff above), commit the new `data/articles.jsonl` and push; no
+    manual redeploy step is needed. To change the API key later, go to the
+    service's **Environment** tab and edit `ANTHROPIC_API_KEY` there.
+
 ## Limitations
 
 - **~13% of in-scope questions are still missed at k=3** (recall@3 = 0.874
@@ -361,3 +579,11 @@ between runs).
   for consulting a lawyer or the CNESST for an actual employment situation.
   Nothing in this system's output should be treated as a determination of
   legal rights.
+- **The deployed web app is a single instance with in-memory state.** The
+  per-IP rate limiter resets on every redeploy and isn't shared across
+  instances — this is fine at the current single-instance scale (see
+  [Deployment](#deployment)) but wouldn't survive naive horizontal scaling
+  without moving that state somewhere shared. There's also no logging or
+  monitoring of what gets asked in production beyond Render's raw request
+  logs — no way to know from the deployed app alone whether real usage
+  looks like the eval set or not.

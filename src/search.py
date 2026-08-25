@@ -97,7 +97,10 @@ class Searcher:
         self.query_prefix = meta.get("query_prefix", "")
         self.model = SentenceTransformer(self.model_name)
 
-        self.conn = sqlite3.connect(INDEX_DB_PATH)
+        # check_same_thread=False: read-only queries, safe to share across the
+        # worker-thread pool a server (e.g. FastAPI's run_in_threadpool) uses
+        # to run this synchronous code without blocking its event loop.
+        self.conn = sqlite3.connect(INDEX_DB_PATH, check_same_thread=False)
         self._reranker = None  # lazily loaded only if search(..., rerank=True) is used
 
     # -- keyword channel ------------------------------------------------

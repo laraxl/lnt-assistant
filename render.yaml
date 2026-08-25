@@ -1,0 +1,27 @@
+# Render Blueprint — see README.md "Deployment" section for the tradeoffs
+# behind these choices (instance size, build-time data generation, cost).
+#
+# This is a single always-on web service: FastAPI (src/api.py) loading two
+# ML models (intfloat/multilingual-e5-base, BAAI/bge-reranker-v2-m3) into
+# memory once at startup, plus the static frontend (static/index.html).
+services:
+  - type: web
+    name: lnt-assistant
+    runtime: python
+    region: oregon
+    plan: pro # 4GB RAM / 2 CPU — see README for why 'standard' (2GB) is too tight
+    branch: main
+    buildCommand: >
+      pip install -r requirements.txt &&
+      python -c "from sentence_transformers import SentenceTransformer, CrossEncoder;
+      SentenceTransformer('intfloat/multilingual-e5-base');
+      CrossEncoder('BAAI/bge-reranker-v2-m3', max_length=512)" &&
+      python src/chunk.py &&
+      python src/embed.py
+    startCommand: uvicorn api:app --app-dir src --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.13.5
+      - key: ANTHROPIC_API_KEY
+        sync: false # set the real value in the Render dashboard, never here

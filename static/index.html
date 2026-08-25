@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LNT Q&amp;A — Loi sur les normes du travail</title>
+<style>
+  :root {
+    --bg: #faf9f7;
+    --card-bg: #ffffff;
+    --border: #e0ddd6;
+    --text: #26241f;
+    --text-muted: #6b6558;
+    --accent: #2b5d4f;
+    --accent-dark: #1e4237;
+    --warn-bg: #fdf3e3;
+    --warn-border: #e9c778;
+    --warn-text: #6b4c14;
+    --error: #a4342a;
+    --radius: 10px;
+    --max-width: 720px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+  }
+  main {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 24px 16px 64px;
+  }
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-size: 1.3rem;
+    margin: 0 0 4px;
+  }
+  .subtitle {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin: 0 0 20px;
+  }
+  .lang-toggle {
+    display: flex;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .lang-toggle button {
+    border: none;
+    background: var(--card-bg);
+    color: var(--text-muted);
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+  .lang-toggle button.active {
+    background: var(--accent);
+    color: white;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+  textarea {
+    width: 100%;
+    min-height: 84px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 1rem;
+    font-family: inherit;
+    resize: vertical;
+    background: var(--card-bg);
+    color: var(--text);
+  }
+  textarea:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: -1px;
+  }
+  button[type="submit"] {
+    align-self: flex-start;
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 10px 22px;
+    border-radius: var(--radius);
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  button[type="submit"]:hover:not(:disabled) { background: var(--accent-dark); }
+  button[type="submit"]:disabled { opacity: 0.6; cursor: default; }
+
+  .status { color: var(--text-muted); font-size: 0.9rem; }
+  .status.error { color: var(--error); }
+
+  .result { margin-top: 8px; }
+
+  .disclaimer {
+    background: #f1efe9;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+  .disclaimer a { color: var(--text-muted); }
+
+  .answer-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 18px;
+    margin-bottom: 16px;
+    white-space: pre-wrap;
+  }
+
+  .route-badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+  }
+  .route-badge.ALLOW { background: #e4efe9; color: var(--accent-dark); }
+  .route-badge.EXCLUDED { background: var(--warn-bg); color: var(--warn-text); }
+  .route-badge.REDIRECT { background: #f3e5e2; color: var(--error); }
+
+  .redirect-card {
+    background: var(--warn-bg);
+    border: 1px solid var(--warn-border);
+    border-radius: var(--radius);
+    padding: 18px;
+    margin-bottom: 16px;
+    color: var(--warn-text);
+    white-space: pre-wrap;
+  }
+  .redirect-card .redirect-title {
+    font-weight: 700;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  h2.section-title {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    margin: 20px 0 10px;
+    font-weight: 600;
+  }
+  .citation-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    margin-bottom: 10px;
+  }
+  .citation-card .citation-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: white;
+    font-size: 0.78rem;
+    font-weight: 700;
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+  .citation-card .citation-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+  .citation-card a {
+    color: var(--accent-dark);
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 0.92rem;
+  }
+  .citation-card a:hover { text-decoration: underline; }
+  .citation-card .snippet {
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    margin: 0;
+  }
+
+  .spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid #cfcabd;
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  footer {
+    margin-top: 40px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div>
+      <h1 id="title">Questions sur la Loi sur les normes du travail</h1>
+      <p class="subtitle" id="subtitle">Québec, chapitre N-1.1 — pas un avis juridique</p>
+    </div>
+    <div class="lang-toggle" role="group" aria-label="Language">
+      <button type="button" id="lang-fr" class="active">FR</button>
+      <button type="button" id="lang-en">EN</button>
+    </div>
+  </header>
+
+  <form id="ask-form">
+    <textarea id="question" placeholder="Ex. : combien de semaines de vacances après 3 ans ?" required></textarea>
+    <button type="submit" id="submit-btn">Poser la question</button>
+  </form>
+
+  <div id="status" class="status" aria-live="polite"></div>
+  <div id="result" class="result"></div>
+
+  <footer id="footer">
+    Ceci n'est pas un service officiel du gouvernement du Québec.
+  </footer>
+</main>
+
+<script>
+const STRINGS = {
+  fr: {
+    title: "Questions sur la Loi sur les normes du travail",
+    subtitle: "Québec, chapitre N-1.1 — pas un avis juridique",
+    placeholder: "Ex. : combien de semaines de vacances après 3 ans ?",
+    submit: "Poser la question",
+    submitting: "Recherche en cours…",
+    loading: "Recherche dans la loi et rédaction de la réponse (1-2 secondes)…",
+    error: "Une erreur est survenue. Réessayez.",
+    rateLimited: "Limite quotidienne atteinte (10 questions par jour). Réessayez demain.",
+    sourcesTitle: "Articles cités",
+    redirectTitle: "Cette loi ne s'applique probablement pas à votre situation",
+    disclaimer: "Ceci est de l'information juridique générale, pas un avis juridique. Pour votre situation, consultez la <a href=\"https://www.cnesst.gouv.qc.ca\" target=\"_blank\" rel=\"noopener\">CNESST</a> ou un conseiller juridique.",
+    footer: "Ceci n'est pas un service officiel du gouvernement du Québec.",
+    empty: "Écrivez une question pour commencer.",
+  },
+  en: {
+    title: "Questions about the Act respecting labour standards",
+    subtitle: "Quebec, chapter N-1.1 — not legal advice",
+    placeholder: "E.g.: how much vacation after 3 years?",
+    submit: "Ask",
+    submitting: "Searching…",
+    loading: "Searching the Act and writing an answer (1-2 seconds)…",
+    error: "Something went wrong. Please try again.",
+    rateLimited: "Daily limit reached (10 questions per day). Try again tomorrow.",
+    sourcesTitle: "Cited articles",
+    redirectTitle: "This law probably doesn't apply to your situation",
+    disclaimer: "This is general legal information, not legal advice. For your specific situation, consult the <a href=\"https://www.cnesst.gouv.qc.ca\" target=\"_blank\" rel=\"noopener\">CNESST</a> or a legal professional.",
+    footer: "This is not an official service of the Government of Quebec.",
+    empty: "Write a question to get started.",
+  },
+};
+
+let lang = "fr";
+
+function applyLang() {
+  const s = STRINGS[lang];
+  document.getElementById("title").textContent = s.title;
+  document.getElementById("subtitle").textContent = s.subtitle;
+  document.getElementById("question").placeholder = s.placeholder;
+  document.getElementById("submit-btn").textContent = s.submit;
+  document.getElementById("footer").textContent = s.footer;
+  document.documentElement.lang = lang;
+  document.getElementById("lang-fr").classList.toggle("active", lang === "fr");
+  document.getElementById("lang-en").classList.toggle("active", lang === "en");
+}
+
+document.getElementById("lang-fr").addEventListener("click", () => { lang = "fr"; applyLang(); });
+document.getElementById("lang-en").addEventListener("click", () => { lang = "en"; applyLang(); });
+applyLang();
+
+function escapeHtml(str) {
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function renderResult(data) {
+  const s = STRINGS[lang];
+  const resultEl = document.getElementById("result");
+  resultEl.innerHTML = "";
+
+  const disclaimer = document.createElement("div");
+  disclaimer.className = "disclaimer";
+  disclaimer.innerHTML = s.disclaimer;
+
+  if (data.route === "REDIRECT") {
+    const card = document.createElement("div");
+    card.className = "redirect-card";
+    const title = document.createElement("span");
+    title.className = "redirect-title";
+    title.textContent = s.redirectTitle;
+    card.appendChild(title);
+    card.appendChild(document.createTextNode(data.answer));
+    resultEl.appendChild(disclaimer);
+    resultEl.appendChild(card);
+    return;
+  }
+
+  const answerCard = document.createElement("div");
+  answerCard.className = "answer-card";
+  const badge = document.createElement("span");
+  badge.className = "route-badge " + data.route;
+  badge.textContent = data.route;
+  answerCard.appendChild(badge);
+  const answerText = document.createElement("div");
+  answerText.textContent = data.answer;
+  answerCard.appendChild(answerText);
+
+  resultEl.appendChild(disclaimer);
+  resultEl.appendChild(answerCard);
+
+  if (data.citations && data.citations.length) {
+    const sourcesTitle = document.createElement("h2");
+    sourcesTitle.className = "section-title";
+    sourcesTitle.textContent = s.sourcesTitle;
+    resultEl.appendChild(sourcesTitle);
+
+    data.citations.forEach((c, i) => {
+      const card = document.createElement("div");
+      card.className = "citation-card";
+
+      const header = document.createElement("div");
+      header.className = "citation-header";
+      const num = document.createElement("span");
+      num.className = "citation-number";
+      num.textContent = i + 1;
+      const link = document.createElement("a");
+      link.href = c.url;
+      link.target = "_blank";
+      link.rel = "noopener";
+      link.textContent = (lang === "fr" ? "Article " : "Section ") + c.article;
+      header.appendChild(num);
+      header.appendChild(link);
+
+      const snippet = document.createElement("p");
+      snippet.className = "snippet";
+      snippet.textContent = c.snippet;
+
+      card.appendChild(header);
+      card.appendChild(snippet);
+      resultEl.appendChild(card);
+    });
+  }
+}
+
+document.getElementById("ask-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const s = STRINGS[lang];
+  const question = document.getElementById("question").value.trim();
+  const statusEl = document.getElementById("status");
+  const resultEl = document.getElementById("result");
+  const submitBtn = document.getElementById("submit-btn");
+
+  if (!question) {
+    statusEl.textContent = s.empty;
+    statusEl.className = "status error";
+    return;
+  }
+
+  resultEl.innerHTML = "";
+  statusEl.className = "status";
+  statusEl.innerHTML = '<span class="spinner"></span>' + s.loading;
+  submitBtn.disabled = true;
+  submitBtn.textContent = s.submitting;
+
+  try {
+    const resp = await fetch("/ask", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question, lang }),
+    });
+
+    if (resp.status === 429) {
+      statusEl.textContent = s.rateLimited;
+      statusEl.className = "status error";
+      return;
+    }
+    if (!resp.ok) {
+      statusEl.textContent = s.error;
+      statusEl.className = "status error";
+      return;
+    }
+
+    const data = await resp.json();
+    statusEl.textContent = "";
+    renderResult(data);
+  } catch (err) {
+    statusEl.textContent = s.error;
+    statusEl.className = "status error";
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = s.submit;
+  }
+});
+</script>
+</body>
+</html>
